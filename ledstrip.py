@@ -41,11 +41,11 @@ class LEDstrip:
         self.set_rgb(0,0,0)
 
 
-    def rgb_strobo(self, r,g,b, flashes=10, freq=20):
-        dt = 1/freq
+    def rgb_strobo(self, r,g,b, flashes=10, freq=20, dt=0.002):
+        pause = 1/freq
         for i in range(flashes):
-            self.rgb_flash(r,g,b, duration=0.002)
-            time.sleep(dt)
+            self.rgb_flash(r,g,b, duration=dt)
+            time.sleep(pause)
 
         
     def rgb_pulse(self, r,g,b, decayrate=0.175, dt=0.01):

@@ -4,9 +4,9 @@ import pigpio
 import time
 import argparse
 import ledstrip
-from scipy import signal
+import filters
 
-CHUNK = 2**12
+CHUNK = 2**10
 RATE = 44100
 
 parser = argparse.ArgumentParser()
@@ -23,8 +23,6 @@ if __name__=="__main__":
     led = ledstrip.LEDstrip()
 
     if args.save_stuff:
-        ampdata = np.array([])
-        freqdata = np.array([])
         datadata = np.array([])
         peakdata = np.array([])
 
@@ -33,34 +31,25 @@ if __name__=="__main__":
         while True:
             start = time.time()
             # read data from sound input
-            #data = np.fromstring(stream.read(CHUNK, exception_on_overflow=False),dtype=np.int16)
-            data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
-            # fourier transform
-            fft = np.fft.fft(data)
-            fft = fft[:int(len(fft)/2)] # keep only first half
-            # get the amplitudes
-            amp = np.abs(fft)
-            # create array of frequencies
-            freq = np.fft.fftfreq(CHUNK,1.0/RATE)
-            #freq = freq[:int(len(freq)/2)] # keep only first half
-            # assert freq.size==amp.size, "ERROR: freq and amp dont have matching dimensions"
-            # get amplitudes of high frequencies
-            # lowfreqamp = amp[np.where(freq<50)]
-            # do lowpass
-            #data = np.fft.ifft(fft[np.where(abs(freq)<140)])
+            data = np.fromstring(stream.read(CHUNK, exception_on_overflow=False),dtype=np.int16)
+            #data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
             
+            # create filter instance
+            f = filters.Filter(data, rate=RATE)
+            lowpass = f.lowpass(cut=100)
+            highpass = f.highpass(cut=1800)
 
-            peak = np.average(np.abs(data))
-            peak = peak/250000*255
+            bass = np.average(np.abs(lowpass))/10000*255
+            high = np.average(np.abs(highpass))/10000*255
+            peak = np.average(np.abs(data))/10000*255
 
             if args.save_stuff:
-                ampdata = np.append(ampdata, amp)
-                freqdata = np.append(freqdata, freq)
-                datadata = np.append(datadata, data)
-                peakdata = np.append(peakdata, peak)
+                datadata = np.append(datadata, highpass)
+                peakdata = np.append(peakdata, bass)
+                
             end = time.time()
-            print("{} -- {}".format(end-start, int(peak)))
-            led.set_white(peak)
+            print("{} -- {}".format(end-start, int(bass)))
+            led.set_rgb(bass,high,high)
             i+=1
 
     except KeyboardInterrupt:
@@ -73,7 +62,5 @@ if __name__=="__main__":
 
         if args.save_stuff:
             print("save stuff...")
-            np.save("ampdata", ampdata)
-            np.save("freqdata", freqdata)
             np.save("data", datadata)
             np.save("peakdata", peakdata)
