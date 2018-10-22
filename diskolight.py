@@ -37,7 +37,7 @@ if __name__=="__main__":
             # create filter instance
             f = filters.Filter(data, rate=RATE)
             lowpass = f.lowpass(cut=100)
-            highpass = f.highpass(cut=1800)
+            highpass = f.middlepass(lowcut=5000, highcut=10000)
 
             bass = np.average(np.abs(lowpass))/10000*255
             high = np.average(np.abs(highpass))/10000*255
@@ -45,7 +45,7 @@ if __name__=="__main__":
 
             if args.save_stuff:
                 datadata = np.append(datadata, highpass)
-                peakdata = np.append(peakdata, bass)
+                peakdata = np.append(peakdata, high)
                 
             end = time.time()
             print("{} -- {}".format(end-start, int(bass)))
