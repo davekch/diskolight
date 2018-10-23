@@ -1,7 +1,6 @@
 import pyaudio
 import numpy as np
 import pigpio
-import time
 import threading
 import ledstrip
 import filters
@@ -16,6 +15,15 @@ class Diskolight:
 
         self.running = False
         self.save_stuff = save_stuff
+
+        # coloring
+        self.bass_r = 1.
+        self.bass_g = 0.
+        self.bass_b = 0.
+
+        self.high_r = 0.
+        self.high_g = 1.
+        self.high_b = 1.
 
         # initialize this in start function
         self.led = None
@@ -34,7 +42,6 @@ class Diskolight:
             peakdata = np.array([])
 
         while self.running:
-            start = time.time()
             # read data from sound input
             data = np.fromstring(stream.read(self.CHUNK, exception_on_overflow=False),dtype=np.int16)
             #data = np.fromstring(stream.read(self.CHUNK),dtype=np.int16)
@@ -52,9 +59,11 @@ class Diskolight:
                 datadata = np.append(datadata, highpass)
                 peakdata = np.append(peakdata, high)
 
-            end = time.time()
-            #print("{} -- {}".format(end-start, int(bass)))
-            self.led.set_rgb(bass,high,high)
+            r = self.bass_r*bass + self.high_r*high
+            g = self.bass_g*bass + self.high_g*high
+            b = self.bass_b*bass + self.high_b*high
+
+            self.led.set_rgb(r,g,b)
 
         print("\nclose gracefully...")
         stream.stop_stream()
@@ -86,3 +95,15 @@ class Diskolight:
             # wait until run() is done
             self.thread.join()
             self.led = None
+
+    def set_bass_rgb(self, r,g,b):
+        # takes 0 to 255 inputs
+        self.bass_r = r/255.
+        self.bass_g = g/255.
+        self.bass_b = b/255.
+
+    def set_high_rgb(self, r,g,b):
+        # takes 0 to 255 inputs
+        self.high_r = r/255.
+        self.high_g = g/255.
+        self.high_b = b/255.

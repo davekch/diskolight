@@ -5,6 +5,7 @@ import diskolight
 app = flask.Flask(__name__)
 disko = diskolight.Diskolight()
 
+
 @app.route("/")
 def home(action="Start"):
     # dont care about login for now
@@ -14,6 +15,7 @@ def home(action="Start"):
     else:
         return flask.render_template('main.html', action=action)
 
+
 @app.route("/login", methods=["POST"])
 def login():
     if flask.request.form['password'] == open("pwd.txt").read().strip() and flask.request.form['username'] == 'leddj':
@@ -21,6 +23,7 @@ def login():
     else:
         flask.flash("You cannot pass!")
     return home()
+
 
 @app.route("/start", methods=["GET", "POST"])
 def start():
@@ -34,13 +37,18 @@ def start():
             disko.stop()
             return home("Start")
 
+
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     return flask.render_template("settings.html")
 
+
 @app.route("/save", methods=["POST"])
 def save():
-    print(flask.request.form["bass_r"])
+    bass_r = float(flask.request.form["bass_r"])
+    bass_g = float(flask.request.form["bass_g"])
+    bass_b = float(flask.request.form["bass_b"])
+    disko.set_bass_rgb(bass_r, bass_g, bass_b)
     return home()
 
 
