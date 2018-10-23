@@ -55,7 +55,11 @@ def save():
     bass_r = float(flask.request.form["bass_r"])
     bass_g = float(flask.request.form["bass_g"])
     bass_b = float(flask.request.form["bass_b"])
+    high_r = float(flask.request.form["high_r"])
+    high_g = float(flask.request.form["high_g"])
+    high_b = float(flask.request.form["high_b"])
     disko.set_bass_rgb(bass_r, bass_g, bass_b)
+    disko.set_high_rgb(high_r, high_g, high_b)
 
     action = "Stop" if disko.running else "Start"
     return home(action)
