@@ -4,11 +4,11 @@ import os
 app = flask.Flask(__name__)
 
 @app.route("/")
-def home():
+def home(action="Start"):
     if not flask.session.get('logged_in'):
         return flask.render_template('login.html')
     else:
-        return flask.render_template('main.html')
+        return flask.render_template('main.html', action=action)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -17,6 +17,14 @@ def login():
     else:
         flask.flash("You cannot pass!")
     return home()
+
+@app.route("/start", methods=["GET", "POST"])
+def start():
+    if not flask.session.get("logged_in"):
+        return flask.render_template("login.html")
+    else:
+        print("hello")
+        return home("Stop")
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
