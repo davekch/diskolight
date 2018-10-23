@@ -32,6 +32,22 @@ body {
   margin-bottom: 10px;
 }
 
+.settings-form {
+  text-align: center;
+  padding-left: 5em;
+}
+
+label.settings {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+  width: 150px;
+  transition: border .5s;
+}
+
 input {
   text-align: center;
   background-color: #ECF0F1;
@@ -47,6 +63,16 @@ input {
 input:focus {
   border: 2px solid #3498DB;
   box-shadow: none;
+}
+
+input.settings {
+  width: 60px;
+}
+
+table.settings {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 200;
 }
 
 .btn {

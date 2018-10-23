@@ -7,6 +7,8 @@ disko = diskolight.Diskolight()
 
 @app.route("/")
 def home(action="Start"):
+    # dont care about login for now
+    return flask.render_template('main.html', action=action)
     if not flask.session.get('logged_in'):
         return flask.render_template('login.html')
     else:
@@ -31,6 +33,16 @@ def start():
         else:
             disko.stop()
             return home("Start")
+
+@app.route("/settings", methods=["GET", "POST"])
+def settings():
+    return flask.render_template("settings.html")
+
+@app.route("/save", methods=["POST"])
+def save():
+    print(flask.request.form["bass_r"])
+    return home()
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)

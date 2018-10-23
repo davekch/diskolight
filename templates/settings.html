@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% block body %}
+<form action="/save" method="POST">
+    <div class="login-screen">
+      <div class="app-title">
+        <h1>Settings</h1>
+      </div>
+      <div class="settings-form">
+        <div class="control-group">
+          <label class="settings">red</label>
+          <input class="settings" type="text" value="" placeholder="" name="bass_r">
+        </div>
+        <div class="control-group">
+          <label class="settings">green</label>
+          <input class="settings" type="text" value="" placeholder="" name="bass_g">
+        </div>
+        <div class="control-group">
+          <label class="settings">blue</label>
+          <input class="settings" type="text" value="" placeholder="" name="bass_b">
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary btn-large btn-block" >
+        <br>
+      </div>
+    </div>
+</form>
+{% endblock %}
