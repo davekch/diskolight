@@ -27,7 +27,8 @@ def login():
 
 @app.route("/start", methods=["GET", "POST"])
 def start():
-    if not flask.session.get("logged_in"):
+    # dont care about login for now
+    if False and not flask.session.get("logged_in"):
         return flask.render_template("login.html")
     else:
         if not disko.running:
@@ -40,7 +41,13 @@ def start():
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
-    return flask.render_template("settings.html")
+    bass_r = disko.bass_r*255
+    bass_g = disko.bass_g*255
+    bass_b = disko.bass_b*255
+    high_r = disko.high_r*255
+    high_g = disko.high_g*255
+    high_b = disko.high_b*255
+    return flask.render_template("settings.html", **locals())
 
 
 @app.route("/save", methods=["POST"])
@@ -49,7 +56,9 @@ def save():
     bass_g = float(flask.request.form["bass_g"])
     bass_b = float(flask.request.form["bass_b"])
     disko.set_bass_rgb(bass_r, bass_g, bass_b)
-    return home()
+
+    action = "Stop" if disko.running else "Start"
+    return home(action)
 
 
 if __name__ == "__main__":

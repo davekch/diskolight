@@ -7,16 +7,28 @@
       </div>
       <div class="settings-form">
         <div class="control-group">
-          <label class="settings">red</label>
-          <input class="settings" type="text" value="" placeholder="" name="bass_r">
-        </div>
-        <div class="control-group">
-          <label class="settings">green</label>
-          <input class="settings" type="text" value="" placeholder="" name="bass_g">
-        </div>
-        <div class="control-group">
-          <label class="settings">blue</label>
-          <input class="settings" type="text" value="" placeholder="" name="bass_b">
+          <table style="margin:1em auto;">
+            <tr>
+              <th></th>
+              <th>Bass</th>
+              <th>High</th>
+            </tr>
+            <tr>
+              <td><label class="settings">red</label></td>
+              <td><input class="settings" type="text" value={{bass_r}} name="bass_r"></td>
+              <td><input class="settings" type="text" value={{high_r}} name="high_r"></td>
+            </tr>
+            <tr>
+              <td><label class="settings">green</label></td>
+              <td><input class="settings" type="text" value={{bass_g}} name="bass_g"></td>
+              <td><input class="settings" type="text" value={{high_g}} name="high_g"></td>
+            </tr>
+            <tr>
+              <td><label class="settings">blue</label></td>
+              <td><input class="settings" type="text" value={{bass_b}} name="bass_b"></td>
+              <td><input class="settings" type="text" value={{high_g}} name="high_g"></td>
+            </tr>
+          </table>
         </div>
         <input type="submit" value="Save" class="btn btn-primary btn-large btn-block" >
         <br>
