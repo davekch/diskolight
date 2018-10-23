@@ -1,7 +1,9 @@
 import flask
 import os
+import diskolight
 
 app = flask.Flask(__name__)
+disko = diskolight.Diskolight()
 
 @app.route("/")
 def home(action="Start"):
@@ -23,8 +25,12 @@ def start():
     if not flask.session.get("logged_in"):
         return flask.render_template("login.html")
     else:
-        print("hello")
-        return home("Stop")
+        if not disko.running:
+            disko.start()
+            return home("Stop")
+        else:
+            disko.stop()
+            return home("Start")
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
