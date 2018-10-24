@@ -47,6 +47,9 @@
         <br>
         <label class="settings">Damping</label><br>
         <input type="range" min="500" max="50000" value={{damping}} class="slider" name="brightness"><br><br>
+        <form action="/discard" method="POST">
+          <input type="submit" value="Discard" class="btn btn-primary btn-large btn-block">
+        </form><br>
         <input type="submit" value="Save" class="btn btn-primary btn-large btn-block" >
         <br>
       </div>

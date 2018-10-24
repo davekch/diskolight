@@ -7,12 +7,11 @@ disko = diskolight.Diskolight()
 
 
 @app.route("/")
-def home(action="Start"):
-    # dont care about login for now
-    return flask.render_template('main.html', action=action)
+def home():
     if not flask.session.get('logged_in'):
         return flask.render_template('login.html')
     else:
+        action = "Stop" if disko.running else "Start"
         return flask.render_template('main.html', action=action)
 
 
@@ -27,16 +26,14 @@ def login():
 
 @app.route("/start", methods=["GET", "POST"])
 def start():
-    # dont care about login for now
-    if False and not flask.session.get("logged_in"):
+    if not flask.session.get("logged_in"):
         return flask.render_template("login.html")
     else:
         if not disko.running:
             disko.start()
-            return home("Stop")
         else:
             disko.stop()
-            return home("Start")
+        return home()
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -72,8 +69,12 @@ def save():
     disko.highpass_max = float(flask.request.form["high_max"])
     disko.damping = float(flask.request.form["brightness"])
 
-    action = "Stop" if disko.running else "Start"
-    return home(action)
+    return home()
+
+
+@app.route("/discard", methods=["POST"])
+def discard():
+    return flask.render_template("main.html")
 
 
 if __name__ == "__main__":
