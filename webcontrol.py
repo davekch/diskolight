@@ -47,6 +47,10 @@ def settings():
     high_r = disko.high_r*255
     high_g = disko.high_g*255
     high_b = disko.high_b*255
+    low_min = disko.lowpass_min
+    low_max = disko.lowpass_max
+    high_min = disko.highpass_min
+    high_max = disko.highpass_max
     damping = disko.damping
     return flask.render_template("settings.html", **locals())
 
@@ -61,6 +65,11 @@ def save():
     high_b = float(flask.request.form["high_b"])
     disko.set_bass_rgb(bass_r, bass_g, bass_b)
     disko.set_high_rgb(high_r, high_g, high_b)
+
+    disko.lowpass_min = float(flask.request.form["low_min"])
+    disko.lowpass_max = float(flask.request.form["low_max"])
+    disko.highpass_min = float(flask.request.form["high_min"])
+    disko.highpass_max = float(flask.request.form["high_max"])
     disko.damping = float(flask.request.form["brightness"])
 
     action = "Stop" if disko.running else "Start"

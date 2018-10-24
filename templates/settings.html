@@ -11,7 +11,7 @@
           <tr>
             <th></th>
             <th>Bass</th>
-            <th>High</th>
+            <th>Treble</th>
           </tr>
           <tr>
             <td><label class="settings">red</label></td>
@@ -27,6 +27,21 @@
             <td><label class="settings">blue</label></td>
             <td><input class="settings" type="text" value={{bass_b}} name="bass_b"></td>
             <td><input class="settings" type="text" value={{high_b}} name="high_b"></td>
+          </tr>
+        </table>
+        <br>
+        <label class="settings">Low frequency range [Hz]</label>
+        <table style="margin:1em auto;">
+          <tr>
+            <td><input class="settings" type="text" value={{low_min}} name="low_min"></td>
+            <td><input class="settings" type="text" value={{low_max}} name="low_max"></td>
+          </tr>
+        </table>
+        <label class="settings">High frequency range [Hz]</label>
+        <table style="margin:1em auto;">
+          <tr>
+            <td><input class="settings" type="text" value={{high_min}} name="high_min"></td>
+            <td><input class="settings" type="text" value={{high_max}} name="high_max"></td>
           </tr>
         </table>
         <br>

@@ -25,6 +25,12 @@ class Diskolight:
         self.high_g = 1.
         self.high_b = 1.
 
+        # filters
+        self.lowpass_min = 10
+        self.lowpass_max = 100
+        self.highpass_min = 5000
+        self.highpass_max = 10000
+
         # scale down peaks by this factor
         self.damping = 10000
 
@@ -51,12 +57,11 @@ class Diskolight:
 
             # create filter instance
             f = filters.Filter(data, rate=self.RATE)
-            lowpass = f.lowpass(cut=100)
-            highpass = f.middlepass(lowcut=5000, highcut=10000)
+            lowpass = f.middlepass(lowcut=self.lowpass_min, highcut=self.lowpass_max)
+            highpass = f.middlepass(lowcut=self.highpass_min, highcut=self.highpass_max)
 
             bass = np.average(np.abs(lowpass)) /self.damping*255
             high = np.average(np.abs(highpass))/self.damping*255
-            peak = np.average(np.abs(data))    /self.damping*255
 
             if self.save_stuff:
                 datadata = np.append(datadata, highpass)

@@ -85,6 +85,9 @@ table.settings {
 th {
   text-align: center;
 }
+td {
+  text-align: center;
+}
 
 .btn {
   border: 2px solid transparent;
