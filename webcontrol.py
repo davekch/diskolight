@@ -33,7 +33,7 @@ def start():
             disko.start()
         else:
             disko.stop()
-        return home()
+        return flask.redirect(flask.url_for("home"))
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -69,12 +69,12 @@ def save():
     disko.highpass_max = float(flask.request.form["high_max"])
     disko.damping = float(flask.request.form["brightness"])
 
-    return home()
+    return flask.redirect(flask.url_for("settings"))
 
 
 @app.route("/discard", methods=["POST"])
 def discard():
-    return flask.render_template("main.html")
+    return flask.redirect(flask.url_for("home"))
 
 
 if __name__ == "__main__":

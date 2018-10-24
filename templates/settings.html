@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="/static/style.css" type="text/css">
 {% block body %}
-<form action="/save" method="POST">
-  <div class="login-screen">
-    <div class="app-title">
-      <h1>Settings</h1>
-    </div>
-    <div class="settings-form">
+<div class="login-screen">
+  <div class="app-title">
+    <h1>Settings</h1>
+  </div>
+  <div class="settings-form">
+    <form action="/save" method="POST">
       <div class="control-group">
         <table style="margin:1em auto;">
           <tr>
@@ -47,13 +47,13 @@
         <br>
         <label class="settings">Damping</label><br>
         <input type="range" min="500" max="50000" value={{damping}} class="slider" name="brightness"><br><br>
-        <form action="/discard" method="POST">
-          <input type="submit" value="Discard" class="btn btn-primary btn-large btn-block">
-        </form><br>
         <input type="submit" value="Save" class="btn btn-primary btn-large btn-block" >
         <br>
-      </div>
+      </form>
+      <form action="/discard" method="POST">
+        <input type="submit" value="Back" class="btn btn-primary btn-large btn-block">
+      </form><br>
     </div>
   </div>
-</form>
+</div>
 {% endblock %}
