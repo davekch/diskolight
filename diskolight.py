@@ -25,6 +25,9 @@ class Diskolight:
         self.high_g = 1.
         self.high_b = 1.
 
+        # scale down peaks by this factor
+        self.damping = 10000
+
         # initialize this in start function
         self.led = None
         self.thread = None
@@ -51,9 +54,9 @@ class Diskolight:
             lowpass = f.lowpass(cut=100)
             highpass = f.middlepass(lowcut=5000, highcut=10000)
 
-            bass = np.average(np.abs(lowpass))/10000*255
-            high = np.average(np.abs(highpass))/10000*255
-            peak = np.average(np.abs(data))/10000*255
+            bass = np.average(np.abs(lowpass)) /self.damping*255
+            high = np.average(np.abs(highpass))/self.damping*255
+            peak = np.average(np.abs(data))    /self.damping*255
 
             if self.save_stuff:
                 datadata = np.append(datadata, highpass)

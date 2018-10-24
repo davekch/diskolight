@@ -37,6 +37,13 @@ body {
   padding-left: 5em;
 }
 
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  background: #ffffff;
+  padding: 10px 10px;
+}
+
 label.settings {
   text-align: center;
   border: 2px solid transparent;

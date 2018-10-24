@@ -1,38 +1,41 @@
 <link rel="stylesheet" href="/static/style.css" type="text/css">
 {% block body %}
 <form action="/save" method="POST">
-    <div class="login-screen">
-      <div class="app-title">
-        <h1>Settings</h1>
-      </div>
-      <div class="settings-form">
-        <div class="control-group">
-          <table style="margin:1em auto;">
-            <tr>
-              <th></th>
-              <th>Bass</th>
-              <th>High</th>
-            </tr>
-            <tr>
-              <td><label class="settings">red</label></td>
-              <td><input class="settings" type="text" value={{bass_r}} name="bass_r"></td>
-              <td><input class="settings" type="text" value={{high_r}} name="high_r"></td>
-            </tr>
-            <tr>
-              <td><label class="settings">green</label></td>
-              <td><input class="settings" type="text" value={{bass_g}} name="bass_g"></td>
-              <td><input class="settings" type="text" value={{high_g}} name="high_g"></td>
-            </tr>
-            <tr>
-              <td><label class="settings">blue</label></td>
-              <td><input class="settings" type="text" value={{bass_b}} name="bass_b"></td>
-              <td><input class="settings" type="text" value={{high_b}} name="high_b"></td>
-            </tr>
-          </table>
-        </div>
+  <div class="login-screen">
+    <div class="app-title">
+      <h1>Settings</h1>
+    </div>
+    <div class="settings-form">
+      <div class="control-group">
+        <table style="margin:1em auto;">
+          <tr>
+            <th></th>
+            <th>Bass</th>
+            <th>High</th>
+          </tr>
+          <tr>
+            <td><label class="settings">red</label></td>
+            <td><input class="settings" type="text" value={{bass_r}} name="bass_r"></td>
+            <td><input class="settings" type="text" value={{high_r}} name="high_r"></td>
+          </tr>
+          <tr>
+            <td><label class="settings">green</label></td>
+            <td><input class="settings" type="text" value={{bass_g}} name="bass_g"></td>
+            <td><input class="settings" type="text" value={{high_g}} name="high_g"></td>
+          </tr>
+          <tr>
+            <td><label class="settings">blue</label></td>
+            <td><input class="settings" type="text" value={{bass_b}} name="bass_b"></td>
+            <td><input class="settings" type="text" value={{high_b}} name="high_b"></td>
+          </tr>
+        </table>
+        <br>
+        <label class="settings">Damping</label><br>
+        <input type="range" min="500" max="50000" value={{damping}} class="slider" name="brightness"><br><br>
         <input type="submit" value="Save" class="btn btn-primary btn-large btn-block" >
         <br>
       </div>
     </div>
+  </div>
 </form>
 {% endblock %}
