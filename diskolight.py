@@ -17,13 +17,13 @@ class Diskolight:
         self.save_stuff = save_stuff
 
         # coloring
-        self.bass_r = 1.
+        self.bass_r = 0.8
         self.bass_g = 0.
-        self.bass_b = 0.
+        self.bass_b = 0.2
 
         self.high_r = 0.
         self.high_g = 1.
-        self.high_b = 1.
+        self.high_b = 0.
 
         # filters
         self.lowpass_min = 10
