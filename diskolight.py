@@ -2,19 +2,19 @@ import pyaudio
 import numpy as np
 import pigpio
 import threading
+import time
 import ledstrip
 import filters
 
 
 class Diskolight:
 
-    def __init__(self, chunk=2**10, rate=44100, save_stuff=False):
+    def __init__(self, chunk=2**10, rate=44100):
 
         self.CHUNK = chunk
         self.RATE = rate
 
         self.running = False
-        self.save_stuff = save_stuff
 
         # coloring
         self.bass_r = 0.8
@@ -42,36 +42,39 @@ class Diskolight:
         """
         runs the actual diskolight until stopped
         """
-        p = pyaudio.PyAudio()
-        stream = p.open(format=pyaudio.paInt16,channels=1,rate=self.RATE,input=True,
-                      input_device_index=2, frames_per_buffer=self.CHUNK)
 
-        if self.save_stuff:
-            datadata = np.array([])
-            peakdata = np.array([])
-
-        while self.running:
-            # read data from sound input
-            data = np.fromstring(stream.read(self.CHUNK, exception_on_overflow=False),dtype=np.int16)
-            #data = np.fromstring(stream.read(self.CHUNK),dtype=np.int16)
+        def process(data, frame_count, time_info, status_flag):
+            """
+            callback function to process audio input
+            """
+            npdata = np.fromstring(data, dtype=np.int16)
 
             # create filter instance
-            f = filters.Filter(data, rate=self.RATE)
+            f = filters.Filter(npdata, rate=self.RATE)
             lowpass = f.middlepass(lowcut=self.lowpass_min, highcut=self.lowpass_max)
             highpass = f.middlepass(lowcut=self.highpass_min, highcut=self.highpass_max)
 
             bass = np.average(np.abs(lowpass)) /self.damping*255
             high = np.average(np.abs(highpass))/self.damping*255
 
-            if self.save_stuff:
-                datadata = np.append(datadata, highpass)
-                peakdata = np.append(peakdata, high)
-
             r = self.bass_r*bass + self.high_r*high
             g = self.bass_g*bass + self.high_g*high
             b = self.bass_b*bass + self.high_b*high
 
             self.led.set_rgb(r,g,b)
+            return (data, pyaudio.paContinue)
+
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paInt16,channels=1,rate=self.RATE,input=True,
+                      input_device_index=2, frames_per_buffer=self.CHUNK,
+                      stream_callback=process)
+
+        # runs in its own thread
+        stream.start_stream()
+
+        # block until streaming is done
+        while stream.is_active() and self.running:
+            time.sleep(1)
 
         print("\nclose gracefully...")
         stream.stop_stream()
@@ -79,12 +82,6 @@ class Diskolight:
         p.terminate()
         print("lights out...")
         self.led.stop()
-
-        if self.save_stuff:
-            print("save stuff...")
-            np.save("data", datadata)
-            np.save("peakdata", peakdata)
-
         return
 
     def start(self):
