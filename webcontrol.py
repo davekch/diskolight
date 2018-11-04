@@ -54,19 +54,49 @@ def settings():
 
 @app.route("/save", methods=["POST"])
 def save():
-    bass_r = float(flask.request.form["bass_r"])
-    bass_g = float(flask.request.form["bass_g"])
-    bass_b = float(flask.request.form["bass_b"])
-    high_r = float(flask.request.form["high_r"])
-    high_g = float(flask.request.form["high_g"])
-    high_b = float(flask.request.form["high_b"])
+    try:
+        bass_r = float(flask.request.form["bass_r"])
+    except:
+        bass_r = 0.0
+    try:
+        bass_g = float(flask.request.form["bass_g"])
+    except:
+        bass_g = 0.0
+    try:
+        bass_b = float(flask.request.form["bass_b"])
+    except:
+        bass_b = 0.0
+    try:
+        high_r = float(flask.request.form["high_r"])
+    except:
+        high_r = 0.0
+    try:
+        high_g = float(flask.request.form["high_g"])
+    except:
+        high_b = 0.0
+    try:
+        high_b = float(flask.request.form["high_b"])
+    except:
+        high_b = 0.0
     disko.set_bass_rgb(bass_r, bass_g, bass_b)
     disko.set_high_rgb(high_r, high_g, high_b)
 
-    disko.lowpass_min = float(flask.request.form["low_min"])
-    disko.lowpass_max = float(flask.request.form["low_max"])
-    disko.highpass_min = float(flask.request.form["high_min"])
-    disko.highpass_max = float(flask.request.form["high_max"])
+    try:
+        disko.lowpass_min = float(flask.request.form["low_min"])
+    except:
+        disko.lowpass_min = 0.0
+    try:
+        disko.lowpass_max = float(flask.request.form["low_max"])
+    except:
+        disko.lowpass_max = 0.0
+    try:
+        disko.highpass_min = float(flask.request.form["high_min"])
+    except:
+        disko.highpass_min = 0.0
+    try:
+        disko.highpass_max = float(flask.request.form["high_max"])
+    except:
+        disko.highpass_max = 0.0
     disko.damping = float(flask.request.form["brightness"])
 
     return flask.redirect(flask.url_for("settings"))
