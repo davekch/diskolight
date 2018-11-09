@@ -7,11 +7,12 @@ class LEDstrip:
 
     def __init__(self):
         self.pi = pigpio.pi()
+        # CHANGE THESE NUMBERS ACCORDING TO THE GPIOs YOU'RE USING
         self.red = 24
         self.green = 22
         self.blue = 17
         self.colors = [self.red, self.green, self.blue]
-    
+
 
     def control_color(self, color, brightness):
         # make sure that 0<=brightness<=255
@@ -30,7 +31,7 @@ class LEDstrip:
         self.control_color(self.green, g)
         self.control_color(self.blue, b)
 
-    
+
     def set_white(self, brightness):
         self.set_rgb(brightness, brightness, brightness)
 
@@ -47,7 +48,7 @@ class LEDstrip:
             self.rgb_flash(r,g,b, duration=dt)
             time.sleep(pause)
 
-        
+
     def rgb_pulse(self, r,g,b, decayrate=0.175, dt=0.01):
         decrease = 0
         i = 0  # counts steps
@@ -58,7 +59,7 @@ class LEDstrip:
             i += 1
             time.sleep(dt)
         self.set_white(0)  # just to be sure
-        
+
 
     def stop(self):
         # turn off all lights
