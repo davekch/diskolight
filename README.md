@@ -53,7 +53,7 @@ The output might look like this (beautified)
     "structVersion": 2
 }
 ```
-If the value is something different than 2, you need to go to [diskolight.py](diskolight.py), find the line that starts with `stream = p.open(` and change `input_device_index=2` to whatever your index is.
+If the value of `index` is something different than 2, you need to go to [diskolight.py](diskolight.py), find the line that starts with `stream = p.open(` and change `input_device_index=2` to whatever your index is.
 
 Now everything should be set up and you can try it out! Play some music to your raspberry's line-in and start the Diskolight:
 ```python
@@ -111,3 +111,13 @@ ExecStart=/path/to/diskolight/start_webcontrol.sh &
 [Install]
 WantedBy=multi-user.target
 ```
+
+Then do
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start diskolight.service
+# check that it's active and running
+systemctl status diskolight.service
+```
+
+The next time you want to use the Diskolight, all you have to do is start up the raspberry pi, plug in some music and start Diskolight via a web-browser.
