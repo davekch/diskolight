@@ -1,6 +1,7 @@
 import time
 import pigpio
 import math
+import colorsys
 
 
 class LEDstrip:
@@ -59,6 +60,19 @@ class LEDstrip:
             i += 1
             time.sleep(dt)
         self.set_white(0)  # just to be sure
+
+
+    def rainbow(self, dt=0.05, saturation=1, luminance=0.5):
+        i=0.0
+        while True:
+            try:
+                i = (i+1)%361
+                r,g,b = colorsys.hls_to_rgb(i/360.0, luminance, saturation)
+                self.set_rgb(r*255,g*255,b*255)
+                time.sleep(dt)
+            except KeyboardInterrupt:
+                self.set_white(0)
+                return
 
 
     def stop(self):
