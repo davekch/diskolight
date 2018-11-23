@@ -43,7 +43,7 @@ class LEDstrip:
         self.set_rgb(0,0,0)
 
 
-    def rgb_strobo(self, r,g,b, flashes=10, freq=20, dt=0.002):
+    def rgb_strobo(self, r,g,b, flashes=10, freq=12, dt=0.002):
         pause = 1/freq
         for i in range(flashes):
             self.rgb_flash(r,g,b, duration=dt)
@@ -63,13 +63,27 @@ class LEDstrip:
 
 
     def rainbow(self, dt=0.05, saturation=1, luminance=0.5):
-        i=0.0
+        i=0
         while True:
             try:
                 i = (i+1)%361
                 r,g,b = colorsys.hls_to_rgb(i/360.0, luminance, saturation)
                 self.set_rgb(r*255,g*255,b*255)
                 time.sleep(dt)
+            except KeyboardInterrupt:
+                self.set_white(0)
+                return
+
+
+    def rainbowstrobo(self, dt=0.002, freq=12, saturation=1, luminance=0.5):
+        i=0
+        pause = 1.0/freq
+        while True:
+            try:
+                i = (i+1)%361
+                r,g,b = colorsys.hls_to_rgb(i/360.0, luminance, saturation)
+                self.rgb_flash(r,g,b, duration=dt)
+                time.sleep(pause)
             except KeyboardInterrupt:
                 self.set_white(0)
                 return
