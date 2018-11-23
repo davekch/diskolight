@@ -62,14 +62,14 @@ class LEDstrip:
         self.set_white(0)  # just to be sure
 
 
-    def rainbow(self, dt=0.05, saturation=1, luminance=0.5):
+    def rainbow(self, speed=1, saturation=1, luminance=0.5):
         i=0
         while True:
             try:
-                i = (i+1)%361
+                i = (i+speed)%361
                 r,g,b = colorsys.hls_to_rgb(i/360.0, luminance, saturation)
                 self.set_rgb(r*255,g*255,b*255)
-                time.sleep(dt)
+                time.sleep(0.05)
             except KeyboardInterrupt:
                 self.set_white(0)
                 return
@@ -82,7 +82,7 @@ class LEDstrip:
             try:
                 i = (i+1)%361
                 r,g,b = colorsys.hls_to_rgb(i/360.0, luminance, saturation)
-                self.rgb_flash(r,g,b, duration=dt)
+                self.rgb_flash(r*255,g*255,b*255, duration=dt)
                 time.sleep(pause)
             except KeyboardInterrupt:
                 self.set_white(0)
