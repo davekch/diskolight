@@ -6,7 +6,11 @@ Demo video:
 [![demo video](https://img.youtube.com/vi/i0-qI-DSFXs/0.jpg)](https://www.youtube.com/watch?v=i0-qI-DSFXs)
 
 ## Hardware
-todo ...
+ - raspberry pi 3
+ - RGB LED strip
+ - wires, MOSFETs, ...
+
+I followed [this tutorial](https://dordnung.de/raspberrypi-ledstrip/) by David Ordnung to connect the LED strip with the raspi.
 
 ## Software
 
