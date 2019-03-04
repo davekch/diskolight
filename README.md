@@ -1,5 +1,10 @@
 # Diskolight
 
+Diskolight makes a LED-strip flash to your favorite music!
+Demo video:
+
+[![demo video](https://img.youtube.com/vi/i0-qI-DSFXs/0.jpg)](https://www.youtube.com/watch?v=i0-qI-DSFXs)
+
 ## Hardware
 todo ...
 
