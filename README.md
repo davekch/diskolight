@@ -8,11 +8,33 @@ Demo video:
 ## Hardware
  - raspberry pi 3
  - RGB LED strip
+ - cheap soundcard
  - wires, MOSFETs, ...
+ - aux cables
+ - aux splitter
 
 I followed [this tutorial](https://dordnung.de/raspberrypi-ledstrip/) by David Ordnung to connect the LED strip with the raspi.
 
+The aux splitter is connected directly to the source of music. One aux cable is connected to the line-in channel of the raspi's sound card, the other one connects to the speakers.
+
 ## Software
+
+#### TL;DR—Quickstart
+Set up hardware and type this on your raspberry pi:
+
+    ifconfig   # <--- write down ip-address
+    git clone https://github.com/davekch/diskolight.git
+    cd diskolight
+    echo password > pwd.txt  # choose a password to access the control page
+    pip3 install pyaudio numpy pigpio
+    sudo apt-get install python3-flask
+    sudo pigpiod
+    sudo python3 webcontrol.py &
+
+Connect your raspberry pi to a source of music and make sure everything else is plugged in and connected as well. On any device that is in the same network as the raspi, open `http://<raspis-ip-address`, log in with user `leddj` and your password.
+Then press Start!
+
+If something does not work right, here is a guide to test the different components of Diskolight and how to set up autostart.
 
 ### [ledstrip.py](ledstrip.py)
 To access the GPIOs on the raspberry pi, you need `pigpiod` (usually preinstalled on raspbian). Make sure that the deamon is running: `sudo pigpiod`.
