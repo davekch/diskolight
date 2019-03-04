@@ -5,6 +5,12 @@ Demo video:
 
 [![demo video](https://img.youtube.com/vi/i0-qI-DSFXs/0.jpg)](https://www.youtube.com/watch?v=i0-qI-DSFXs)
 
+Control over the Diskolight is easily accessible through a webpage that is hosted by the raspberry pi.
+
+![home](img/home.png)
+
+![settings](img/settings.png)
+
 ## Hardware
  - raspberry pi 3
  - RGB LED strip
@@ -31,7 +37,7 @@ Set up hardware and type this on your raspberry pi:
     sudo pigpiod
     sudo python3 webcontrol.py &
 
-Connect your raspberry pi to a source of music and make sure everything else is plugged in and connected as well. On any device that is in the same network as the raspi, open `http://<raspis-ip-address`, log in with user `leddj` and your password.
+Connect your raspberry pi to a source of music. On any device that is in the same network as the raspi, open `http://<raspis-ip-address>`, log in with user `leddj` and your password.
 Then press Start!
 
 If something does not work right, here is a guide to test the different components of Diskolight and how to set up autostart.
