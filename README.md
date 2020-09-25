@@ -115,6 +115,7 @@ WantedBy=multi-user.target
 Then do
 ```bash
 sudo systemctl daemon-reload
+sudo systemctl enable diskolight.service
 sudo systemctl start diskolight.service
 # check that it's active and running
 systemctl status diskolight.service
