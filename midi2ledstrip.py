@@ -7,7 +7,7 @@ from ledstrip import LEDstrip
 
 
 class MidiListener(threading.Thread):
-    def __init__(self, port, timeout=250):
+    def __init__(self, port, timeout=100):
         threading.Thread.__init__(self)
         self.device = rtmidi.RtMidiIn()
         self.port = port
@@ -31,9 +31,8 @@ class MidiListener(threading.Thread):
             return self.queue.get()
 
 
-class MidiLedstrip(threading.Thread):
+class MidiLedstrip:
     def __init__(self, midi):
-        threading.Thread.__init__(self)
         self.ledstrip = LEDstrip()
         self.midi = midi
         self.running = False
@@ -43,17 +42,44 @@ class MidiLedstrip(threading.Thread):
         self.ledstrip.stop()
         self.midi.stop()
 
-    def run(self):
+    def start(self, method):
+        self.run = getattr(self, method)
+        threading.Thread.start(self)
+
+    def random_color_on_note(self):
+        print("setting a random color on note press")
+        self.running = True
+        self.midi.start()
+        onnotes = 0
+        while self.running:
+            msg = self.midi.get_latest()
+            if msg:
+                r = random.randint(0, 255)
+                g = random.randint(0, 255)
+                b = random.randint(0, 255)
+                if msg.isNoteOn():
+                    self.ledstrip.set_rgb(r, g, b)
+                    onnotes += 1
+                elif msg.isNoteOff():
+                    onnotes -= 1
+                    if not onnotes:
+                        self.ledstrip.set_rgb(0,0,0, 0)
+
+    def follow_modwheel(self, startcol, endcol):
+        print("following the modwheel")
+        r1, g1, b1 = startcol
+        r2, g2, b2 = endcol
         self.running = True
         self.midi.start()
         while self.running:
             msg = self.midi.get_latest()
             if msg:
-                color = random.choice([self.ledstrip.red, self.ledstrip.green, self.ledstrip.blue])
-                if msg.isNoteOn():
-                    self.ledstrip.control_color(color, msg.getNoteNumber())
-                elif msg.isNoteOff():
-                    self.ledstrip.control_color(color, 0)
+                if msg.isController():
+                    v = msg.getControllerValue() / 128
+                    r = r1 + v * (r2 - r1)
+                    g = g1 + v * (g2 - g1)
+                    b = b1 + v * (b2 - b1)
+                    self.ledstrip.set_rgb(r, g, b)
 
 
 if __name__ == "__main__":
@@ -61,13 +87,10 @@ if __name__ == "__main__":
     try:
         listener = MidiListener(1)
         led = MidiLedstrip(listener)
-        led.start()
-        while led.running:
-            time.sleep(0.5)
+        led.follow_modwheel((255,0,0), (0,0,255))
     except KeyboardInterrupt:
         print("killing threads ...")
         led.stop()
-        led.join()
         listener.join()
 
     print("all threads closed, good night")
