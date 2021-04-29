@@ -1,5 +1,14 @@
 # Diskolight
 
+This repository contains a collection of scripts that 
+ - control a LED strip with a raspberry pi
+ - make the LED strip react to audio
+ - make the LED strip react to midi (see the file [midi2ledstrip.py](midi2ledstrip.py))
+
+Instructions on how to set up the raspberry below.
+
+-------------------------
+
 Diskolight makes a LED-strip flash to your favorite music!
 Demo video:
 
